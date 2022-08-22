@@ -1,5 +1,6 @@
 import requests
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,13 +9,14 @@ from src.services.email import send_email
 
 
 class GetValuesApi(APIView):
-    def get(self, request):
+    def get(self, request: Request):
         """
         Returns the price of an asset and sends a value alert via e-mail
         """
 
-        asset_price = "34.0"
-        symbol = "PETR4.SA"
+        data = request.data
+        asset_price = data.get("asset_price")
+        symbol = data.get("symbol")
         url = f"{settings.ALPHA_VANTAGE}/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={settings.API_KEY}"
         response = requests.get(url=url)
         data = response.json()
