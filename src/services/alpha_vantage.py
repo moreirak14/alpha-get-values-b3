@@ -1,4 +1,5 @@
 import requests
+
 from config import settings
 from src.exception import PageNotLoaded
 
