@@ -1,38 +1,33 @@
-import requests
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from config import settings
-from src.services.email import send_email_buy, send_email_sell
+from src.services.alpha_vantage import ServiceAlphaVantageAPI
+from src.services.email import ServiceSendEmail
 
 
 class GetValuesApi(APIView):
-    def get(self, request: Request):
-        """
-        Returns the price of an asset and sends a value alert via e-mail
-        """
 
-        data_input = request.data
-        asset_price = data_input.get("asset_price")
-        symbol = data_input.get("symbol")
-        url = f"{settings.ALPHA_VANTAGE}/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={settings.API_KEY}"
-        response = requests.get(url=url)
-        data_output = response.json()
+    service_alpha = ServiceAlphaVantageAPI()
+    service_email = ServiceSendEmail()
 
-        for value in data_output.values():
-            price = value.get("05. price")
+    def post(self, request: Request):
+        req = request.data
+        asset_price = req.get("asset_price")
+        symbol = req.get("symbol")
 
-            if price >= asset_price:
-                send_email_sell(symbol=symbol, price=price)
-                return Response(
-                    data={"active": symbol, "price": price, "message": "sell"},
-                    status=status.HTTP_200_OK,
-                )
-            else:
-                send_email_buy(symbol=symbol, price=price)
-                return Response(
-                    data={"active": symbol, "price": price, "message": "buy"},
-                    status=status.HTTP_200_OK,
-                )
+        data = self.service_alpha.get_values(symbol=symbol)
+
+        if data >= asset_price:
+            self.service_email.send_email_sell(symbol=symbol, price=data)
+            return Response(
+                data={"active": symbol, "price": data, "message": "sell"},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            self.service_email.send_email_buy(symbol=symbol, price=data)
+            return Response(
+                data={"active": symbol, "price": data, "message": "buy"},
+                status=status.HTTP_200_OK,
+            )
