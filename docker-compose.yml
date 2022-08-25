@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  app:
+    command:
+      - "poetry run python manage.py runserver 0.0.0.0:8000"
+    container_name: "app_alpha_vantage"
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/home/alpha
