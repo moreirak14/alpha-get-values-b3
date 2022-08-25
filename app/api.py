@@ -7,12 +7,12 @@ from src.services.alpha_vantage import ServiceAlphaVantageAPI
 from src.services.email import ServiceSendEmail
 
 
-class GetValuesApi(APIView):
+class GetAlphaVantageApi(APIView):
 
     service_alpha = ServiceAlphaVantageAPI()
     service_email = ServiceSendEmail()
 
-    def post(self, request: Request):
+    def get(self, request: Request):
         """
         Return the price of an asset and send e-mail
         """
