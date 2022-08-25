@@ -20,7 +20,7 @@ lint | pre-commit: ## Run the pre-commit config
 	poetry run pre-commit run -a
 
 test: ## Run tests locally
-	poetry run pytest --cov=src --color=yes tests/
+	poetry run pytest --cov --color=yes tests/
 
 report: test ## Create test report
 	pytest --cov=$(API_CONTAINER_NAME) --color=yes tests/
