@@ -1,4 +1,4 @@
-# Alpha Vantage
+# Alpha Vantage Invest
 O objetivo do sistema é auxiliar um investidor nas suas decisões de comprar/vender ativos.
 O investidor será capaz de realizar o cadastro e ter visibilidade dos seus ativos!
 
