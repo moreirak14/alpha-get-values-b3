@@ -1,5 +1,6 @@
-import pytest
 from http import HTTPStatus
+
+import pytest
 
 URL_REGISTER = "/api/users/register"
 URL_ME = "/api/users/me"
@@ -8,10 +9,7 @@ URL_ME = "/api/users/me"
 @pytest.mark.django_db
 def test_register_user_invalid(client):
     payload = dict(
-            first_name="alpha",
-            last_name="invest",
-            email="alpha@gmail.com",
-            password="123"
+        first_name="alpha", last_name="invest", email="alpha@gmail.com", password="123"
     )
 
     response = client.post(URL_REGISTER, data=payload)
@@ -22,10 +20,10 @@ def test_register_user_invalid(client):
 @pytest.mark.django_db
 def test_register_user(client):
     payload = dict(
-            first_name="alpha",
-            last_name="invest",
-            email="alpha@gmail.com",
-            password="alpha12645370"
+        first_name="alpha",
+        last_name="invest",
+        email="alpha@gmail.com",
+        password="alpha12645370",
     )
 
     response = client.post(URL_REGISTER, data=payload)

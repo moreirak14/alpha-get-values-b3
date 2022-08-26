@@ -1,17 +1,18 @@
-import pytest
 import unittest
+
+import pytest
+
 from users.models import UserAccount
 
 
 class TestUsersUnit(unittest.TestCase):
-
     @pytest.mark.django_db
     def test_constructor(self):
         payload = dict(
             first_name="alpha",
             last_name="invest",
             email="alpha@gmail.com",
-            password="alpha12645370"
+            password="alpha12645370",
         )
 
         obj = UserAccount()
